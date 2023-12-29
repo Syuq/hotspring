@@ -51,6 +51,7 @@ public class MenuController {
 	}
 
 	@PostMapping("/add")
+	@PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<Menu> createMenu(@RequestBody Menu menu) {
 		try {
 			Menu _menu = menuRepository
@@ -62,7 +63,7 @@ public class MenuController {
 	}
 
 	@PutMapping("/{id}")
-  	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<Menu> updateTutorial(@PathVariable("id") long id, @RequestBody Menu menu) {
 		Optional<Menu> menuData = menuRepository.findById(id);
 
@@ -78,7 +79,7 @@ public class MenuController {
 	}
 
 	@DeleteMapping("/{id}")
-  	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
 		try {
 			menuRepository.deleteById(id);
@@ -89,7 +90,7 @@ public class MenuController {
 	}
 
 	@DeleteMapping("/all")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<HttpStatus> deleteAllTutorials() {
 		try {
 			menuRepository.deleteAll();
